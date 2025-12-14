@@ -2,17 +2,11 @@
 
 An open source Python tool for scraping public X (Twitter) tweets using Playwright.
 
-## Features
-- Scrape public tweets
-- JavaScript rendered content
-- Simple Python API
-- CSV export
-
 ## Why I built this
 
-I wanted to learn a few things properly
+I wanted to learn a few things properly like,
 
-- How browser based scraping actually works  
+- How web scraping actually works  
 - How to deal with dynamic pages like X  
 - How to structure a Python project properly  
 - How to avoid hardcoding and build something reusable  
