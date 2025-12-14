@@ -23,7 +23,7 @@ I wanted to learn a few things properly
 - Load tweets by scrolling  
 - Extract clean tweet text  
 - Extract timestamps  
-- CSV Export
+- Save results to CSV
 - Run fully from the terminal  
 
 ## What it does not do
@@ -39,7 +39,7 @@ I wanted to learn a few things properly
 - Playwright  
 - Pandas  
 
-ust tools that get the job done.
+i just used tools that get the job done.
 
 ## Setup
 
