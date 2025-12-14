@@ -13,12 +13,12 @@ I built this because i wanted to a few things properly like,
 
 ## What it can do
 
-- Scrape public tweets from any username  
-- Load tweets by scrolling  
-- Extract clean tweet text  
-- Extract timestamps  
-- Save results to CSV
-- Run fully from the terminal
+- scrape public tweets from any username  
+- load tweets by scrolling  
+- extract clean tweet text  
+- extract timestamps  
+- save results to CSV
+- run fully from the terminal
 
 ## What it does not do
 
