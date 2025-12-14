@@ -48,13 +48,14 @@ Nothing fancy. Just tools that get the job done.
 
 Clone the repo.
 
-# bash
+```bash
     git clone https://github.com/calchiwo/twitter-scraper.git
     cd twitter-scraper
+```
 
 Install dependencies.
 
-``` bash
+```bash
     python -m pip install -r requirements.txt
     python -m playwright install chromium
 ```
@@ -64,14 +65,15 @@ Install dependencies.
 Run the example script and pass a username.
 
 ```bash
-    python examples/scrape_user.py orcdev
+    python examples/scrape_user.py elonmusk
 ```
 
 With a custom limit.
 
-``` bash
+```bash
     python examples/scrape_user.py elonmusk 15
 ```
+
 This creates a CSV file named after the username, for example `elonmusk.csv`.  
 CSV files are ignored by git and stay local.
 
