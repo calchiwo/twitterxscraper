@@ -22,10 +22,9 @@ Everything runs from the terminal. You pass the username, optionally pass a limi
 
 ## What it does not do
 
-- No login  
-- No private accounts  
-- No API keys  
-- No guarantee X won’t change things later
+This scraper does not log into any accounts and it does not touch private profiles. It only works with what is already publicly visible on X.
+
+There are no API keys involved and no attempt to pretend this is more stable than it really is. If X changes their layout in the future, some parts of this will need to be updated. That is just how scraping works.
 
 This is scraping. Stuff breaks sometimes. That’s part of it.
 
