@@ -1,14 +1,9 @@
 # twitter-scraper
 
-I built this because I wanted to understand how scraping actually works in the real world, not just theory.
-
-This is a simple Python Twitter (X) scraper built with Playwright. It scrapes public tweets only from any username you pass in. No hardcoding. No magic.
-
-You run it. It opens a real browser. It scrolls. It pulls tweets. That’s it.
 
 ## Why I built this
 
-I wanted to learn a few things properly ins
+I wanted to learn a few things properly
 
 - How browser based scraping actually works  
 - How to deal with dynamic pages like X  
