@@ -17,7 +17,7 @@ I wanted to learn a few things properly
 - Load tweets by scrolling  
 - Extract clean tweet text  
 - Extract timestamps  
-- Save results to CSV  
+- CSV Export
 - Run fully from the terminal  
 
 ## What it does not do
