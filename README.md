@@ -8,15 +8,12 @@ You run it. It opens a real browser. It scrolls. It pulls tweets. That’s it.
 
 ## Why I built this
 
-I wanted to learn a few things properly instead of just watching videos about them.
+I wanted to learn a few things properly ins
 
 - How browser based scraping actually works  
 - How to deal with dynamic pages like X  
 - How to structure a Python project properly  
 - How to avoid hardcoding and build something reusable  
-
-This is not a startup product.  
-It’s a learning project that actually works.
 
 ## What it can do
 
@@ -32,9 +29,7 @@ It’s a learning project that actually works.
 - No login  
 - No private accounts  
 - No API keys  
-- No guarantee X won’t change things later  
-
-This is scraping. Stuff breaks sometimes. That’s part of it.
+- No guarantee X won’t change things later
 
 ## Tech used
 
