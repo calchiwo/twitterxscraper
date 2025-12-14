@@ -18,16 +18,6 @@ It also grabs timestamps so the data is not just text without context. Once the 
 
 Everything runs from the terminal. You pass the username, optionally pass a limit, and the scraper does the rest.
 
-
-## What it can do
-
-- scrape public tweets from any username  
-- load tweets by scrolling  
-- extract clean tweet text  
-- extract timestamps  
-- save results to CSV
-- run fully from the terminal
-
 ## What it does not do
 
 - No login  
