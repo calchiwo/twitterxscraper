@@ -33,7 +33,7 @@ I wanted to learn a few things properly like,
 - Playwright  
 - Pandas  
 
-i just used tools that get the job done.
+I just used tools that get the job done.
 
 ## Setup
 
