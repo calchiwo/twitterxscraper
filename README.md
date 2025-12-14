@@ -81,13 +81,14 @@ CSV files are ignored by git and stay local.
 
 You can also use it directly as a Python class.
 
-# python
+```python
     from twitter_scraper.scraper import TwitterScraper
 
     scraper = TwitterScraper()
     tweets = scraper.scrape_user("orcdev", limit=10)
 
     print(tweets)
+```
 
 Nothing runs on import. Scraping only happens when you call the method.
 
