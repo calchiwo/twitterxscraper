@@ -12,6 +12,15 @@ More than anything, I wanted to build something small, real, and finished, not j
 
 ## What it can do
 
+At a basic level, this scraper pulls public tweets from any username you give it. It loads the page properly, scrolls to fetch more tweets, and then extracts only the actual tweet text instead of all the surrounding UI noise.
+
+It also grabs timestamps so the data is not just text without context. Once the scrape is done, everything is saved to a CSV file so you can inspect it, analyze it, or use it elsewhere.
+
+Everything runs from the terminal. You pass the username, optionally pass a limit, and the scraper does the rest.
+
+
+## What it can do
+
 - scrape public tweets from any username  
 - load tweets by scrolling  
 - extract clean tweet text  
