@@ -110,8 +110,8 @@ Do not abuse it.
 
 If you are learning scraping, packaging, or just want to understand how things work under the hood, feel free to explore the code.
 
-If it helps you, cooool
+If it helps you, cool.
 
-If it breaks, fix it!. That’s the fun part tbh
+If it breaks, fix it!. That’s the fun part tbh.
 
 Byeeee
