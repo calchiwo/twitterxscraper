@@ -100,7 +100,7 @@ This project is for educational and research purposes only.
 Be responsible.  
 Respect platform rules.  
 Do not abuse it.
-
+If you use it for purposes like commercial uses you must inform.
 ## Final thoughts
 
 If you are learning scraping, packaging, or just want to understand how things work under the hood, feel free to explore the code.
