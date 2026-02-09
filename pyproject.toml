@@ -1,20 +1,29 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "twitterxscraper"
-version = "1.0.0"
-description = "An open source Python package CLI tool for scraping public X (Twitter) tweets using Playwright"
+version = "1.1.0"
+description = "A Python CLI tool for scraping public X (Twitter) profile tweets using Playwright."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [
     {name = "Caleb Wodi", email = "calebwodi33@gmail.com"}
 ]
 dependencies = [
-    "playwright",
-    "pandas",
+    "playwright>=1.40.0",
+    "pandas>=2.0.0",
+    "rich>=13.0.0",
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
 ]
 
 [project.urls]
