@@ -32,7 +32,8 @@ def save_to_csv(tweets: list[dict], filename: str) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Scrape public tweets from X (Twitter)",
+        prog="twitterxscraper",
+        description="CLI tool to scrape public tweets from X (Twitter)",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
@@ -42,7 +43,9 @@ def main() -> int:
     parser.add_argument("--timeout", type=int, default=90000)
     parser.add_argument("--output", type=str)
     parser.add_argument("--verbose", action="store_true")
-
+    if len(sys.argv) == 1:
+        parser.print_help(sys.stderr)
+        return 0
     args = parser.parse_args()
     setup_logging(args.verbose)
 
