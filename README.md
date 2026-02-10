@@ -1,112 +1,151 @@
-# twitter-scraper
+# TwitterXScraper
 
-An open source Python tool for scraping public X (Twitter) tweets using Playwright.
+A Python CLI tool for scraping public X (Twitter) profile tweets using Playwright and exporting structured results to a CSV file without requiring API keys.
 
-## Why I Built
+[![PyPI Version](https://img.shields.io/pypi/v/twitterxscraper?color=blue)](https://pypi.org/project/twitterxscraper/)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/twitterxscraper?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/twitterxscraper)
+[![Python](https://img.shields.io/pypi/pyversions/twitterxscraper?logo=python&logoColor=white)](https://pypi.org/project/twitterxscraper/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-I built this because I wanted to understand how scraping actually works.
+## Why this exists
 
-I wanted to deal with a real modern site like X, where the page never fully settles, things keep loading in the background, and you can’t just wait for a simple page load event and hope for the best.
+I needed a simple way to pull public tweets from X without using the official API, managing authentication tokens, or dealing with rate limits.
 
-I also wanted to stop hardcoding values everywhere and start writing code that can be reused without opening files and changing strings every time. Passing inputs at runtime, handling limits properly, and structuring things like a real tool mattered to me.
+So I wrote this CLI tool that accepts a username, opens a Chromium browser using Playwright, scrolls a profile dynamically, extracts tweet text and timestamps, and exports everything into a CSV file.
 
-More than anything, I wanted to build something small, real, and finished, not just another experiment that works once and gets abandoned.
 
-## What it can do
+## Features
 
-At a basic level, this scraper pulls public tweets from any username you give it. It loads the page properly, scrolls to fetch more tweets, and then extracts only the actual tweet text instead of all the surrounding UI noise.
+- Scrape public tweets from any username
+- Automatically scroll to load more tweets
+- Extract clean tweet text
+- Extract timestamps
+- Save results to CSV
+- Headless and headful modes
+- Configurable tweet limit
+- No API keys required
+- No authentication
 
-It also grabs timestamps so the data is not just text without context. Once the scrape is done, everything is saved to a CSV file so you can inspect it, analyze it, or use it elsewhere.
+## How It Works
 
-Everything runs from the terminal. You pass the username, optionally pass a limit, and the scraper does the rest.
+The scraper launches a Chromium browser using Playwright, navigates to a public X profile, waits for dynamic content to stabilize, scrolls to trigger additional tweet loading, and extracts structured data from the DOM.
 
-## What it does not do
-
-This scraper does not log into any accounts and it does not touch private profiles. It only works with what is already publicly visible on X.
-
-There are no API keys involved and no attempt to pretend this is more stable than it really is. If X changes their layout in the future, some parts of this will need to be updated. That is just how scraping works.
-
-This is scraping. Stuff breaks sometimes. That’s part of it.
-
-## Tech used
-
-- Python  
-- Playwright  
-- Pandas  
-
-I just used tools that get the job done.
-
-## Setup
-
-Clone the repo.
+## Installation
 
 ```bash
-    git clone https://github.com/calchiwo/twitter-scraper.git
-    cd twitter-scraper
+pip install twitterxscraper
+python -m playwright install chromium
+```
+
+## Clone this repository
+
+```bash
+git clone https://github.com/calchiwo/twitterxscraper.git
+cd twitterxscraper
 ```
 
 Install dependencies.
 
 ```bash
-    python -m pip install -r requirements.txt
-    python -m playwright install chromium
+python -m pip install -e .
+python -m playwright install chromium
 ```
 
 ## Usage
 
-Run the example script and pass a username.
+### Run the CLI and pass a username:
 
 ```bash
-    python examples/scrape_user.py elonmusk
+twitterxscraper <username>
 ```
 
-With a custom limit.
+Example:
 
 ```bash
-    python examples/scrape_user.py elonmusk 15
+twitterxscraper elonmusk
 ```
 
-This creates a CSV file named after the username, for example `elonmusk.csv`.  
-CSV files are ignored by git and stay local.
+This creates a CSV file named after the username: `<username>.csv`.
+
+### Set tweet limit:
+
+```bash
+twitterxscraper <username> --limit 15
+```
+
+Example:
+
+```bash
+twitterxscraper elonmusk --limit 15
+```
+
+### Run in a visible browser mode (debugging)
+
+```bash
+twitterxscraper <username> --headful
+```
+
+### Run as a module
+You can also run it using:
+```bash
+python -m twitterxscraper <username>
+```
+
+## Output
+The scraper exports a CSV file with the following columns:
+
+- username
+- text
+- timestamp
+
+## Exit Codes
+
+- 0 → Successful scrape
+- 1 → No tweets found or validation error
 
 ## Using it in your own code
 
-You can also use it directly as a Python class.
+You can also run directly as a Python class.
 
 ```python
-    from twitter_scraper.scraper import TwitterScraper
+from twitterxscraper import TwitterScraper
 
-    scraper = TwitterScraper()
-    tweets = scraper.scrape_user("orcdev", limit=10)
+scraper = TwitterScraper()
+tweets = scraper.scrape_user("<username>", limit=10)
 
-    print(tweets)
+print(tweets)
 ```
 
-Nothing runs on import. Also scraping only happens when you call the method.
+## Requirements
+- Python 3.8+
+- Chromium browser installed via `python -m playwright install chromium`
 
-## Notes
 
-X never becomes network idle, so this uses domcontentloaded.  
-Playwright launches a real browser.  
-The first run might feel slow. That’s normal.  
-If X changes their layout, selectors may need updates.
+## Limitations
 
-This is part of the game.
+- Only works on public profiles
+- No login support
+- No private accounts
+- May break if X changes layout
+- Uses a Chromium browser with Playwright
+- X is a dynamic platform so layout changes may require selector updates
+- Scraping behavior may vary depending on network conditions and X's anti-bot mechanisms
+
+## Tech stack used
+
+- Python
+- Playwright
+- Pandas
+- Rich (CLI formatting)
 
 ## Disclaimer
+This project is intended for educational and research purposes only.
 
-This project is for educational and research purposes only.
+Respect platform terms of service and applicable laws. Use responsibly.
 
-Be responsible.  
-Respect platform rules.  
-Do not abuse it.
-If you use it for purposes like commercial uses you must inform.
-## Final thoughts
+## License
+MIT
 
-If you are learning scraping, packaging, or just want to understand how things work under the hood, feel free to explore the code.
+## Author
 
-If it helps you, cool.
-
-If it breaks, fix it!. That’s the fun part tbh.
-
-Byeeee.
+[Caleb Wodi](https://github.com/calchiwo)
