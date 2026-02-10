@@ -98,7 +98,7 @@ class TwitterScraper:
             article = locator.nth(i)
 
             try:
-                text_locator = article.locator('div[data-testid="tweetText"]')
+                text_locator = article.locator('[data-testid="tweetText"]')
                 if text_locator.count() == 0:
                     continue
 
