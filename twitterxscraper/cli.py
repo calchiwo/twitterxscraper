@@ -8,7 +8,7 @@ from rich.panel import Panel
 from rich.table import Table
 import pandas as pd
 
-from twitterxscraper.scraper import TwitterScraper, ScraperConfig
+from twitterxscraper import TwitterScraper, ScraperConfig
 
 
 console = Console()
