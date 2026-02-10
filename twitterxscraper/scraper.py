@@ -1,76 +1,138 @@
-from playwright.sync_api import sync_playwright
+from __future__ import annotations
+
+import logging
+from typing import Optional
+from contextlib import contextmanager
+
+from playwright.sync_api import (
+    sync_playwright,
+    TimeoutError as PlaywrightTimeoutError,
+    Page
+)
+
+logger = logging.getLogger(__name__)
+
+
+class ScraperConfig:
+    def __init__(
+        self,
+        headless: bool = True,
+        timeout: int = 90000,
+        user_agent: Optional[str] = None,
+    ):
+        self.headless = headless
+        self.timeout = timeout
+        self.user_agent = user_agent or (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/121.0.0.0 Safari/537.36"
+        )
 
 
 class TwitterScraper:
-    """
-    Scrapes public tweets from an X (Twitter) profile.
-    """
+    def __init__(self, config: Optional[ScraperConfig] = None):
+        self.config = config or ScraperConfig()
 
-    def __init__(self, headless: bool = True):
-        self.headless = headless
+    @contextmanager
+    def _browser_context(self):
+        playwright = sync_playwright().start()
+        browser = playwright.chromium.launch(
+            headless=self.config.headless,
+            args=["--disable-blink-features=AutomationControlled"]
+        )
 
-    def scrape_user(self, username: str, limit: int = 10):
-        """
-        Scrape public tweets from a given username.
+        context = browser.new_context(
+            user_agent=self.config.user_agent,
+            viewport={"width": 1280, "height": 800},
+            locale="en-US",
+        )
 
-        :param username: X username without @
-        :param limit: Maximum number of tweets to collect
-        :return: List of tweet dictionaries
-        """
-        if not username:
-            raise ValueError("Username must not be empty")
+        page = context.new_page()
+
+        try:
+            yield page
+        finally:
+            context.close()
+            browser.close()
+            playwright.stop()
+
+    def _navigate_safely(self, page: Page, url: str) -> bool:
+        strategies = [
+            "load",
+            "domcontentloaded",
+            "networkidle",
+            "commit",
+        ]
+
+        for strategy in strategies:
+            try:
+                page.goto(url, wait_until=strategy, timeout=self.config.timeout)
+                return True
+            except PlaywrightTimeoutError:
+                continue
+            except Exception:
+                continue
+
+        return False
+
+    def _extract_tweets(self, page: Page, username: str, limit: int) -> list[dict]:
+        tweets = []
+
+        try:
+            page.wait_for_selector("article", timeout=15000)
+        except PlaywrightTimeoutError:
+            return tweets
+
+        # Scroll
+        for _ in range(5):
+            page.evaluate("window.scrollBy(0, window.innerHeight)")
+            page.wait_for_timeout(1500)
+
+        locator = page.locator("article")
+        count = locator.count()
+
+        for i in range(count):
+            if len(tweets) >= limit:
+                break
+
+            article = locator.nth(i)
+
+            try:
+                text_locator = article.locator('div[data-testid="tweetText"]')
+                if text_locator.count() == 0:
+                    continue
+
+                text = text_locator.first.inner_text(timeout=5000)
+
+                time_locator = article.locator("time")
+                timestamp = None
+                if time_locator.count() > 0:
+                    timestamp = time_locator.first.get_attribute("datetime")
+
+                tweets.append({
+                    "username": username,
+                    "text": text.strip(),
+                    "timestamp": timestamp,
+                })
+
+            except Exception:
+                continue
+
+        return tweets
+
+    def scrape_user(self, username: str, limit: int = 10) -> list[dict]:
+        if not username or not username.strip():
+            raise ValueError("Username cannot be empty")
 
         if limit <= 0:
             raise ValueError("Limit must be greater than 0")
 
+        username = username.strip().lstrip("@")
         url = f"https://x.com/{username}"
-        tweets = []
 
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=self.headless)
-            page = browser.new_page()
+        with self._browser_context() as page:
+            if not self._navigate_safely(page, url):
+                return []
 
-            page.goto(url, wait_until="domcontentloaded", timeout=60000)
             page.wait_for_timeout(3000)
-
-            # Scroll to load more tweets
-            for _ in range(3):
-                page.mouse.wheel(0, 3000)
-                page.wait_for_timeout(2000)
-
-            try:
-                page.wait_for_selector("article", timeout=60000)
-            except Exception:
-                browser.close()
-                return tweets
-
-            articles = page.locator("article")
-
-            for i in range(articles.count()):
-                if len(tweets) >= limit:
-                    break
-
-                article = articles.nth(i)
-
-                text_locator = article.locator('div[data-testid="tweetText"]')
-                if not text_locator.count():
-                    continue
-
-                text = text_locator.inner_text()
-
-                time_locator = article.locator("time")
-                timestamp = (
-                    time_locator.get_attribute("datetime")
-                    if time_locator.count()
-                    else None
-                )
-
-                tweets.append({
-                    "username": username,
-                    "text": text,
-                    "timestamp": timestamp,
-                })
-
-            browser.close()
-
-        return tweets
+            return self._extract_tweets(page, username, limit)
