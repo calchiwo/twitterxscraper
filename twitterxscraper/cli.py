@@ -1,5 +1,7 @@
 import argparse
 import logging
+import os
+import signal
 import sys
 from pathlib import Path
 
@@ -10,8 +12,26 @@ import pandas as pd
 
 from twitterxscraper import TwitterScraper, ScraperConfig
 
+logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 
 console = Console()
+
+_scraper: "TwitterScraper | None" = None
+
+
+def _handle_sigint(signum, frame) -> None:
+
+    global _scraper
+    if _scraper is not None:
+        try:
+            _scraper.close()
+        except Exception:
+            pass
+    print("\nInterrupted by user.", file=sys.stderr)
+    sys.stderr.flush()
+    os._exit(130)
+
+signal.signal(signal.SIGINT, _handle_sigint)
 
 
 def setup_logging(verbose: bool = False) -> None:
@@ -31,6 +51,8 @@ def save_to_csv(tweets: list[dict], filename: str) -> None:
 
 
 def main() -> int:
+    global _scraper
+
     parser = argparse.ArgumentParser(
         prog="twitterxscraper",
         description="CLI tool to scrape public tweets from X (Twitter)",
@@ -43,14 +65,15 @@ def main() -> int:
     parser.add_argument("--timeout", type=int, default=90000)
     parser.add_argument("--output", type=str)
     parser.add_argument("--verbose", action="store_true")
+
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
         return 0
+
     args = parser.parse_args()
     setup_logging(args.verbose)
 
     headless = not args.headful
-
     username = args.username.strip().lstrip("@")
     output_file = args.output or f"{username}.csv"
 
@@ -71,10 +94,9 @@ def main() -> int:
             "[bold green]Launching browser...",
             spinner="dots"
         ) as status:
-            scraper = TwitterScraper(config)
+            _scraper = TwitterScraper(config)
             status.update(f"[bold cyan]Scraping @{username}...")
-            tweets = scraper.scrape_user(username, limit=args.limit)
-
+            tweets = _scraper.scrape_user(username, limit=args.limit)
     except ValueError as e:
         console.print(f"[bold red]Validation Error:[/bold red] {e}")
         return 1
@@ -83,6 +105,14 @@ def main() -> int:
         if args.verbose:
             console.print_exception()
         return 1
+    finally:
+        if _scraper is not None:
+            try:
+                _scraper.close()
+            except Exception:
+                pass
+            finally:
+                _scraper = None
 
     if not tweets:
         console.print(f"[bold yellow]![/bold yellow] No tweets found for @{username}")
@@ -104,7 +134,6 @@ def main() -> int:
     table.add_row("File Size", f"{Path(output_file).stat().st_size:,} bytes")
 
     console.print(table)
-
     return 0
 
 
