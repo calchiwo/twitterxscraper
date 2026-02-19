@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "twitterxscraper"
-version = "1.1.4"
+version = "1.1.5"
 description = "A Python CLI tool for scraping public X (Twitter) profile tweets using Playwright and exporting structured results to a CSV file without requiring API keys."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -29,7 +29,7 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/calchiwo/twitterxscraper"
 Repository = "https://github.com/calchiwo/twitterxscraper.git"
-"Stars" = "https://github.com/calchiwo/twitterxscraper/stargazers"
+"Bug tracker" = "https://github.com/calchiwo/twitterxscraper/issues"
 
 [project.scripts]
 twitterxscraper = "twitterxscraper.cli:main"

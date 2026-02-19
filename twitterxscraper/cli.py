@@ -11,6 +11,7 @@ from rich.table import Table
 import pandas as pd
 
 from twitterxscraper import TwitterScraper, ScraperConfig
+from importlib.metadata import version
 
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 
@@ -58,6 +59,11 @@ def main() -> int:
         description="CLI tool to scrape public tweets from X (Twitter)",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
+
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {version('twitterxscraper')}")
 
     parser.add_argument("username", help="Username to scrape (with or without @)")
     parser.add_argument("--limit", type=int, default=10, help="Number of tweets")
