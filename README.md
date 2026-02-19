@@ -7,6 +7,8 @@ A Python CLI tool for scraping public X (Twitter) profile tweets using Playwrigh
 [![Python](https://img.shields.io/pypi/pyversions/twitterxscraper?logo=python&logoColor=white)](https://pypi.org/project/twitterxscraper/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
+<video src="assets/twitterxscraper-demo.mp4" controls width="100%"></video>
+
 ## Why this exists
 
 I needed a simple way to pull public tweets from X without using the official API, managing authentication tokens, or dealing with rate limits.
@@ -28,7 +30,7 @@ So I wrote this CLI tool that accepts a username, opens a Chromium browser using
 
 ## How It Works
 
-The scraper launches a Chromium browser using Playwright, navigates to a public X profile, waits for dynamic content to stabilize, scrolls to trigger additional tweet loading, and extracts structured data from the DOM.
+The scraper launches a Chromium browser using Playwright, navigates to a public X profile, waits for dynamic content to load, scrolls to trigger additional tweet loading, and extracts structured data from the DOM.
 
 ## Installation
 
@@ -91,6 +93,14 @@ You can also run it using:
 python -m twitterxscraper <username>
 ```
 
+### Show installed version
+
+Prints the installed package version.
+
+```bash
+twitterxscraper --version
+```
+
 ## Output
 The scraper exports a CSV file with the following columns:
 
@@ -119,7 +129,7 @@ print(tweets)
 ## Requirements
 - Python 3.8+
 - Chromium browser installed via `python -m playwright install chromium`
-
+- macOS, Linux, and Windows
 
 ## Limitations
 
