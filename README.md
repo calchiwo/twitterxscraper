@@ -7,7 +7,7 @@ A Python CLI tool for scraping public X (Twitter) profile tweets using Playwrigh
 [![Python](https://img.shields.io/pypi/pyversions/twitterxscraper?logo=python&logoColor=white)](https://pypi.org/project/twitterxscraper/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-<video src="assets/twitterxscraper-demo.mp4" controls width="100%"></video>
+![Demo video](assets/twitterxscraper-demo.gif)
 
 ## Why this exists
 
