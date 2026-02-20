@@ -8,7 +8,7 @@ version = "1.1.5"
 description = "A Python CLI tool for scraping public X (Twitter) profile tweets using Playwright and exporting structured results to a CSV file without requiring API keys."
 readme = "README.md"
 requires-python = ">=3.9"
-license = {text = "MIT"}
+license = { text = "MIT" }
 authors = [
     {name = "Caleb Wodi", email = "calebwodi33@gmail.com"}
 ]
@@ -30,6 +30,9 @@ classifiers = [
 Homepage = "https://github.com/calchiwo/twitterxscraper"
 Repository = "https://github.com/calchiwo/twitterxscraper.git"
 "Bug tracker" = "https://github.com/calchiwo/twitterxscraper/issues"
+
+[tool.setuptools]
+packages = ["twitterxscraper"]
 
 [project.scripts]
 twitterxscraper = "twitterxscraper.cli:main"
